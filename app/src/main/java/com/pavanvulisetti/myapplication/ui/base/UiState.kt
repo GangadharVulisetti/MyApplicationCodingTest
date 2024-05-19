@@ -1,4 +1,4 @@
-package com.pavanvulisetti.codingsessiontwo.ui.base
+package com.pavanvulisetti.myapplication.ui.base
 
 sealed interface UiState<out T> {
 

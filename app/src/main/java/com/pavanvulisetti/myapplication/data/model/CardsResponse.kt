@@ -55,7 +55,7 @@ data class Location(
     @SerializedName("country")
     var country: String? = null,
     @SerializedName("postcode")
-    var postcode: Int? = null,
+    var postcode: String? = null,
     @SerializedName("coordinates")
     var coordinates: Coordinates? = null,
     @SerializedName("timezone")
