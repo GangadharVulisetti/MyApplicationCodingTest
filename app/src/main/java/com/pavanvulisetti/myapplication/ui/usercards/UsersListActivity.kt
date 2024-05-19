@@ -51,29 +51,24 @@ class UsersListActivity : AppCompatActivity() {
     }
 
     private fun setUpObserver() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                userListViewModel.uiState.collect {
-                    when (it) {
-                        is UiState.Success -> {
-                            binding.progressBar.visibility = View.GONE
-                            renderList(it.data)
-                            binding.recyclerView.visibility = View.VISIBLE
+        userListViewModel.getUiState().observe(this) {
+            when (it) {
+                is UiState.Success -> {
+                    binding.progressBar.visibility = View.GONE
+                    renderList(it.data)
+                    binding.recyclerView.visibility = View.VISIBLE
+                }
 
-                        }
+                is UiState.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                    binding.recyclerView.visibility = View.GONE
+                }
 
-                        is UiState.Loading -> {
-                            binding.progressBar.visibility = View.VISIBLE
-                            binding.recyclerView.visibility = View.GONE
-                        }
-
-                        is UiState.Error -> {
-                            binding.progressBar.visibility = View.GONE
-                            Toast.makeText(this@UsersListActivity, it.message, Toast.LENGTH_LONG)
-                                .show()
-                            print("****** ${it.message}")
-                        }
-                    }
+                is UiState.Error -> {
+                    binding.progressBar.visibility = View.GONE
+                    Toast.makeText(this@UsersListActivity, it.message, Toast.LENGTH_LONG)
+                        .show()
+                    print("****** ${it.message}")
                 }
             }
         }
