@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pavanvulisetti.myapplication.CardApplication
 import com.pavanvulisetti.myapplication.data.model.Result
-import com.pavanvulisetti.myapplication.databinding.ActivityTopHeadlineBinding
+import com.pavanvulisetti.myapplication.databinding.ActivityUsersListBinding
 import com.pavanvulisetti.myapplication.di.component.DaggerActivityComponent
 import com.pavanvulisetti.myapplication.di.module.ActivityModule
 import com.pavanvulisetti.myapplication.ui.base.UiState
@@ -26,12 +26,12 @@ class UsersListActivity : AppCompatActivity() {
     @Inject
     lateinit var userListAdapter: UserListAdapter
 
-    private lateinit var binding: ActivityTopHeadlineBinding
+    private lateinit var binding: ActivityUsersListBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         injectDependencies()
         super.onCreate(savedInstanceState)
-        binding = ActivityTopHeadlineBinding.inflate(layoutInflater)
+        binding = ActivityUsersListBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setUpUI()
         setUpObserver()
@@ -40,12 +40,6 @@ class UsersListActivity : AppCompatActivity() {
     private fun setUpUI() {
         val recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.addItemDecoration(
-            DividerItemDecoration(
-                recyclerView.context,
-                (recyclerView.layoutManager as LinearLayoutManager).orientation
-            )
-        )
         recyclerView.adapter = userListAdapter
     }
 
@@ -88,5 +82,4 @@ class UsersListActivity : AppCompatActivity() {
             .build()
             .inject(this)
     }
-
 }
