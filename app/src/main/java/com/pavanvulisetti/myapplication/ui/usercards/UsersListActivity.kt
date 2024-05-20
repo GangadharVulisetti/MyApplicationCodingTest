@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pavanvulisetti.myapplication.CardApplication
@@ -12,6 +15,7 @@ import com.pavanvulisetti.myapplication.databinding.ActivityTopHeadlineBinding
 import com.pavanvulisetti.myapplication.di.component.DaggerActivityComponent
 import com.pavanvulisetti.myapplication.di.module.ActivityModule
 import com.pavanvulisetti.myapplication.ui.base.UiState
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class UsersListActivity : AppCompatActivity() {
@@ -43,28 +47,30 @@ class UsersListActivity : AppCompatActivity() {
             )
         )
         recyclerView.adapter = userListAdapter
-
     }
 
     private fun setUpObserver() {
-        userListViewModel.getUiState().observe(this) {
-            when (it) {
-                is UiState.Success -> {
-                    binding.progressBar.visibility = View.GONE
-                    renderList(it.data)
-                    binding.recyclerView.visibility = View.VISIBLE
-                }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                userListViewModel.uiState.collect {
+                    when (it) {
+                        is UiState.Success -> {
+                            binding.progressBar.visibility = View.GONE
+                            renderList(it.data)
+                            binding.recyclerView.visibility = View.VISIBLE
+                        }
 
-                is UiState.Loading -> {
-                    binding.progressBar.visibility = View.VISIBLE
-                    binding.recyclerView.visibility = View.GONE
-                }
+                        is UiState.Loading -> {
+                            binding.progressBar.visibility = View.VISIBLE
+                            binding.recyclerView.visibility = View.GONE
+                        }
 
-                is UiState.Error -> {
-                    binding.progressBar.visibility = View.GONE
-                    Toast.makeText(this@UsersListActivity, it.message, Toast.LENGTH_LONG)
-                        .show()
-                    print("****** ${it.message}")
+                        is UiState.Error -> {
+                            binding.progressBar.visibility = View.GONE
+                            Toast.makeText(this@UsersListActivity, it.message, Toast.LENGTH_LONG)
+                                .show()
+                        }
+                    }
                 }
             }
         }

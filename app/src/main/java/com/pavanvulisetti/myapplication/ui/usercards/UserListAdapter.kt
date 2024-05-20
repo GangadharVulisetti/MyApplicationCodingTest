@@ -41,7 +41,7 @@ class UserListAdapter(
             binding.textViewDescription.text = userResult.email
             binding.textViewSource.text = userResult.name.first
             Glide.with(binding.imageViewBanner.context)
-                .load(userResult.picture.thumbnail)
+                .load(userResult.picture.large)
                 .into(binding.imageViewBanner)
             itemView.setOnClickListener {
                 //click can be implemented later
