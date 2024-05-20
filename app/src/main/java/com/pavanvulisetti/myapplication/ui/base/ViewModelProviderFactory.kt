@@ -2,7 +2,6 @@ package com.pavanvulisetti.myapplication.ui.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import java.lang.IllegalArgumentException
 import javax.inject.Singleton
 import kotlin.reflect.KClass
 

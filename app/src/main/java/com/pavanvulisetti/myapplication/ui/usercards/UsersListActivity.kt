@@ -7,8 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
 import com.pavanvulisetti.myapplication.CardApplication
 import com.pavanvulisetti.myapplication.data.model.Result
 import com.pavanvulisetti.myapplication.databinding.ActivityUsersListBinding
@@ -26,6 +26,9 @@ class UsersListActivity : AppCompatActivity() {
     @Inject
     lateinit var userListAdapter: UserListAdapter
 
+    @Inject
+    lateinit var userHorizontalListAdapter: UserHorizontalListAdapter
+
     private lateinit var binding: ActivityUsersListBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,6 +41,12 @@ class UsersListActivity : AppCompatActivity() {
     }
 
     private fun setUpUI() {
+
+        val horizontalRecyclerView = binding.horizontalDisplayRecyclerView
+        horizontalRecyclerView.layoutManager = LinearLayoutManager(this, HORIZONTAL, false)
+        horizontalRecyclerView.adapter = userHorizontalListAdapter
+
+
         val recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = userListAdapter
@@ -51,12 +60,14 @@ class UsersListActivity : AppCompatActivity() {
                         is UiState.Success -> {
                             binding.progressBar.visibility = View.GONE
                             renderList(it.data)
+                            binding.horizontalDisplayRecyclerView.visibility = View.VISIBLE
                             binding.recyclerView.visibility = View.VISIBLE
                         }
 
                         is UiState.Loading -> {
                             binding.progressBar.visibility = View.VISIBLE
                             binding.recyclerView.visibility = View.GONE
+                            binding.horizontalDisplayRecyclerView.visibility = View.GONE
                         }
 
                         is UiState.Error -> {
@@ -71,6 +82,7 @@ class UsersListActivity : AppCompatActivity() {
     }
 
     private fun renderList(list: List<Result>) {
+        userHorizontalListAdapter.addData(list)
         userListAdapter.addData(list)
     }
 

@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.pavanvulisetti.myapplication.data.model.Result
-import com.pavanvulisetti.myapplication.databinding.UserListItemLayoutBinding
+import com.pavanvulisetti.myapplication.databinding.ItemBinding
 
 class UserListAdapter(
     private val userList: ArrayList<Result>
@@ -13,7 +13,7 @@ class UserListAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserDetailViewHolder {
         return UserDetailViewHolder(
-            UserListItemLayoutBinding.inflate(
+            ItemBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -34,15 +34,15 @@ class UserListAdapter(
     }
 
     class UserDetailViewHolder(
-        private val binding: UserListItemLayoutBinding
+        private val binding: ItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(userResult: Result) {
-            binding.textViewTitle.text = "${userResult.name?.first} ${userResult.name?.last}"
-            binding.textViewDescription.text = userResult.email
-            binding.textViewSource.text = userResult.phone
-            Glide.with(binding.imageViewBanner.context)
+            binding.userNameTextView.text = "${userResult.name?.first} ${userResult.name?.last}"
+            binding.userEmailTextView.text = userResult.email
+            binding.userPhoneTextView.text = userResult.phone
+            Glide.with(binding.userImageView.context)
                 .load(userResult.picture?.large)
-                .into(binding.imageViewBanner)
+                .into(binding.userImageView)
             itemView.setOnClickListener {
                 //click functionality of User card can be implemented here
             }

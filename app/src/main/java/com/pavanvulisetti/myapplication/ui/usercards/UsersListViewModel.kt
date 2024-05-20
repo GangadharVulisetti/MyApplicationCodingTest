@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.pavanvulisetti.myapplication.data.model.Result
 import com.pavanvulisetti.myapplication.data.repository.UserCardsRepository
 import com.pavanvulisetti.myapplication.ui.base.UiState
-import com.pavanvulisetti.myapplication.utils.AppConstant.RESULTS
+import com.pavanvulisetti.myapplication.utils.AppConstant.NUMBER_OF_RESULTS
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
@@ -23,7 +23,7 @@ class UsersListViewModel(private val userCardRepository: UserCardsRepository) : 
 
     private fun fetchUsers() {
         viewModelScope.launch {
-            userCardRepository.getUser(RESULTS)
+            userCardRepository.getUser(NUMBER_OF_RESULTS)
                 .catch { e ->
                     _uiState.value = UiState.Error(e.toString())
                 }.collect {

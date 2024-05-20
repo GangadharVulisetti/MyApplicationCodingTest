@@ -1,10 +1,10 @@
 package com.pavanvulisetti.myapplication.di.module
 
 import android.content.Context
-import com.pavanvulisetti.myapplication.di.ApplicationContext
-import com.pavanvulisetti.myapplication.di.BaseUrl
 import com.pavanvulisetti.myapplication.CardApplication
 import com.pavanvulisetti.myapplication.data.api.NetworkService
+import com.pavanvulisetti.myapplication.di.ApplicationContext
+import com.pavanvulisetti.myapplication.di.BaseUrl
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
@@ -16,7 +16,7 @@ class ApplicationModule(private val application: CardApplication) {
 
     @ApplicationContext
     @Provides
-    fun provideContext(): Context  {
+    fun provideContext(): Context {
         return application
     }
 
